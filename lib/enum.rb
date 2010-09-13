@@ -43,26 +43,42 @@ public
       @fields = fields
       send :attr_reader, *fields
     end
+    def enumerate *args, &block
+      puts "#{self}.enumerate"
+      e = Enumeration.new self
+      e.module_eval &block
+    end
     def missing *args
       name = args.first
       if name == name.to_s.upcase.to_sym
-	if const_defined? name
-	  const_get name
+	if parent.const_defined? name
+	  parent.const_get name
 	else
-	  value = new(values.length,*args)
-	  values.push value
-	  const_set(name,value)
+	  value = parent.new(values.length,*args)
+	  parent.values.push value
+	  parent.const_set(name,value)
 	  value
 	end
       else
 	nil
       end
     end
+  end
+
+  class Enumeration
+    def initialize parent, *args
+      @parent = parent
+    end
+  protected
+    def parent
+      @parent
+    end
     def method_missing *args
-      missing(*args) || super
+      parent.send :missing, *args
     end
     def const_missing *args
-      missing(*args) || super
+      parent.send :missing, *args
     end
   end
+
 end
