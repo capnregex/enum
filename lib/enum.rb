@@ -8,12 +8,15 @@ protected
       instance_variable_set("@#{field}",args.shift)
     end
   end
-  def initialize *args
+  def initialize *args, &block
     @id = self.class.next_ordinal
     sym = args.shift
     @sym = sym.to_sym
     @name = args.shift || sym.to_s
     init(*args)
+    if block
+      instance_eval( &block )
+    end
   end
 public
   attr_reader :id
@@ -99,14 +102,14 @@ public
 	arg.to_sym
       end
     end
-    def add_enum *args
+    def add_enum *args, &block
       c = args.shift
       name = c.to_s
       sym = enum_sym(c)
       if const_defined? sym
 	const_get sym 
       else
-	value = new(sym,name,*args)
+	value = new(sym,name,*args,&block)
 	values.push value
 	const_set(sym,value)
 	value
@@ -121,11 +124,11 @@ public
       instance_eval(&block)
     end
   protected
-    def method_missing *args
-      @parent.send :add_enum, *args
+    def method_missing *args, &block
+      @parent.send :add_enum, *args, &block
     end
-    def const_missing *args
-      @parent.send :add_enum, *args
+    def const_missing *args, &block
+      @parent.send :add_enum, *args, &block
     end
   end
 
