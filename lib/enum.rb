@@ -10,15 +10,16 @@ protected
   end
   def initialize *args
     @id = args.shift
-    @sym = args.shift.to_sym
+    @sym = args.shift
+    @name = args.shift
     init(*args)
   end
 public
   attr_reader :id
   alias ordinal id
   def to_sym;@sym;end
-  def to_s;@sym.to_s;end
-  alias name  to_s
+  def to_s;@name;end
+  alias name to_s
   def to_i;@id;end
   def to_f;@id.to_f;end
   def inspect;"#{self.class}::#{name}##{id}";end
@@ -47,8 +48,14 @@ public
     end
     def enum *args, &block
       unless args.empty?
-	args.each do |arg|
-	  add_enum arg
+	if args.length == 1 and ( arg = args.first ) and arg.kind_of? Array
+	  arg.each do |a|
+	    add_enum a
+	  end
+	else
+	  args.each do |arg|
+	    add_enum arg
+	  end
 	end
       end
       if block
@@ -59,14 +66,25 @@ public
     def next_ordinal
       values.length
     end
+    def enum_sym arg
+      arg = arg.to_s.upcase
+      case arg
+      when /\s/ 
+        arg.gsub(/\s+/,'_').to_sym
+      else 
+	arg.to_sym
+      end
+    end
     def add_enum *args
-      c = args.first.to_s.upcase.to_sym
-      if const_defined? c
-	const_get c
+      c = args.shift
+      name = c.to_s
+      sym = enum_sym(c)
+      if const_defined? sym
+	const_get sym 
       else
-	value = new(next_ordinal,*args)
+	value = new(next_ordinal,sym,name,*args)
 	values.push value
-	const_set(c,value)
+	const_set(sym,value)
 	value
       end
     end
