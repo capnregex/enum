@@ -41,7 +41,7 @@ class Card < Enum
       @cards = []
       until old.empty?
 	card = old.delete_at(rand(old.length))
-	@cards.insert(rand(@card.length),card)
+	@cards.insert(rand(@cards.length),card)
       end
     end
   end
