@@ -20,9 +20,10 @@ public
   def to_sym;@sym;end
   def to_s;@name;end
   alias name to_s
+  alias title to_s
   def to_i;@id;end
   def to_f;@id.to_f;end
-  def inspect;"#{self.class}::#{name}##{id}";end
+  def inspect;"#{self.class}::#{to_sym}";end
   def save;end
   def save!;end
   class << self
@@ -41,7 +42,17 @@ public
 	yield value
       end
     end
+    def save
+    end
+    def save!
+    end
   protected
+    def start_at i
+      @next_ordinal = i
+    end
+    def step_by n
+      @step = n
+    end
     def enum_fields *fields
       @fields = fields
       send :attr_reader, *fields
@@ -63,8 +74,13 @@ public
       end
       nil
     end
+    def step
+      @step ||= 1
+    end
     def next_ordinal
-      values.length
+      o = @next_ordinal ||= 0
+      @next_ordinal = o + step
+      o
     end
     def enum_sym arg
       arg = arg.to_s.upcase
