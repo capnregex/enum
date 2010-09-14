@@ -1,5 +1,6 @@
 # Enum
 class Enum 
+  VERSION = '1.0.0'
   include Comparable
 protected 
   def init *args
