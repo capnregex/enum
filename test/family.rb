@@ -1,6 +1,6 @@
 class Family < Enum
   enum_fields :description
-  enumerate do
+  enum do
     MANUAL 'Manual Workout, No Automation'
     CHIRP 'Audio Chirp workout'
     CANNED 'Builtin Speed / Incline workout at 1 minute incriments'

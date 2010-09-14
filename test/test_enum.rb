@@ -3,6 +3,7 @@ require "enum"
 
 class TestEnum < Test::Unit::TestCase
   def test_sanity
-    flunk "write tests or I will kneecap you"
+    assert Enum
   end
 end
+

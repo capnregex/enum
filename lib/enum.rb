@@ -10,14 +10,15 @@ protected
   end
   def initialize *args
     @id = args.shift
-    @name = args.shift
-    init *args
+    @sym = args.shift.to_sym
+    init(*args)
   end
 public
-  attr_reader :id, :name
+  attr_reader :id
   alias ordinal id
-  def to_sym;name;end
-  def to_s;name.to_s;end
+  def to_sym;@sym;end
+  def to_s;@sym.to_s;end
+  alias name  to_s
   def to_i;@id;end
   def to_f;@id.to_f;end
   def inspect;"#{self.class}::#{name}##{id}";end
@@ -44,41 +45,45 @@ public
       @fields = fields
       send :attr_reader, *fields
     end
-    def enumerate *args, &block
-      puts "#{self}.enumerate"
-      e = Enumeration.new self
-      e.module_eval &block
-    end
-    def missing *args
-      name = args.first
-      if name == name.to_s.upcase.to_sym
-	if parent.const_defined? name
-	  parent.const_get name
-	else
-	  value = parent.new(values.length,*args)
-	  parent.values.push value
-	  parent.const_set(name,value)
-	  value
+    def enum *args, &block
+      unless args.empty?
+	args.each do |arg|
+	  add_enum arg
 	end
+      end
+      if block
+        Enumeration.new self, &block
+      end
+      nil
+    end
+    def next_ordinal
+      values.length
+    end
+    def add_enum *args
+      c = args.first.to_s.upcase.to_sym
+      if const_defined? c
+	const_get c
       else
-	nil
+	value = new(next_ordinal,*args)
+	values.push value
+	const_set(c,value)
+	value
       end
     end
   end
 
+  # use the Enumeration class to constrain the scope of where the Enum definition can take place. 
   class Enumeration
-    def initialize parent, *args
+    def initialize parent, *args, &block
       @parent = parent
+      instance_eval(&block)
     end
   protected
-    def parent
-      @parent
-    end
     def method_missing *args
-      parent.send :missing, *args
+      @parent.send :add_enum, *args
     end
     def const_missing *args
-      parent.send :missing, *args
+      @parent.send :add_enum, *args
     end
   end
 
