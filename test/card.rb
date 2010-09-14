@@ -38,12 +38,11 @@ class Card < Enum
       if old.empty?
 	old = Array.new(Card.values)
       end
-      new = []
+      @cards = []
       until old.empty?
 	card = old.delete_at(rand(old.length))
-	new.insert(rand(new.length),card)
+	@cards.insert(rand(new.length),card)
       end
-      @cards = new
     end
   end
 
