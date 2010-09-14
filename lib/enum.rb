@@ -9,14 +9,22 @@ protected
     end
   end
   def initialize *args
-    @id = args.shift
-    @sym = args.shift
-    @name = args.shift
+    @id = self.class.next_ordinal
+    sym = args.shift
+    @sym = sym.to_sym
+    @name = args.shift || sym.to_s
     init(*args)
   end
 public
   attr_reader :id
   alias ordinal id
+  def <=> other
+    if self.class == other.class
+      ordinal <=> other.ordinal
+    else
+      nil
+    end
+  end
   def to_sym;@sym;end
   def to_s;@name;end
   alias name to_s
@@ -45,6 +53,11 @@ public
     def save
     end
     def save!
+    end
+    def next_ordinal
+      o = @next_ordinal ||= 0
+      @next_ordinal = o + step
+      o
     end
   protected
     def start_at i
@@ -77,11 +90,6 @@ public
     def step
       @step ||= 1
     end
-    def next_ordinal
-      o = @next_ordinal ||= 0
-      @next_ordinal = o + step
-      o
-    end
     def enum_sym arg
       arg = arg.to_s.upcase
       case arg
@@ -98,7 +106,7 @@ public
       if const_defined? sym
 	const_get sym 
       else
-	value = new(next_ordinal,sym,name,*args)
+	value = new(sym,name,*args)
 	values.push value
 	const_set(sym,value)
 	value

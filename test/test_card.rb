@@ -30,5 +30,10 @@ class TestEnum < Test::Unit::TestCase
       Card::TEN_OF_SPADES, Card::JACK_OF_SPADES, Card::QUEEN_OF_SPADES,
       Card::KING_OF_SPADES, Card::ACE_OF_SPADES], Card.values
   end
+  def test_card_deck
+    deck = Card::Deck.new
+    assert_not_equal Card.values, deck.cards
+    assert_equal Card.values, deck.cards.sort
+  end
 end
 
