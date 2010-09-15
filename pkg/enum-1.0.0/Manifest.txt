@@ -1,7 +1,0 @@
-.autotest
-History.txt
-Manifest.txt
-README.txt
-Rakefile
-lib/enum.rb
-test/test_enum.rb
