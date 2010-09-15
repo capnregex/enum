@@ -1,9 +1,8 @@
 
 require "test/unit"
-require "enum"
 require "day"
 
-class TestEnum < Test::Unit::TestCase
+class TestDay < Test::Unit::TestCase
 
   def test_day_defined
     assert Day

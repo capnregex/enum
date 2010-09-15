@@ -1,9 +1,8 @@
 
 require "test/unit"
-require "enum"
 require "planet"
 
-class TestEnum < Test::Unit::TestCase
+class TestPlanet < Test::Unit::TestCase
   def test_planet
     mass = Planet::EARTH.mass_of 175
     assert_in_delta  66.107583, Planet::MERCURY.surface_weight(mass), 0.000001

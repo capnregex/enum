@@ -1,5 +1,6 @@
 
 require "enum"
+
 class Operation < Enum
   enum do
     PLUS   { def evaluate x, y; x + y; end }

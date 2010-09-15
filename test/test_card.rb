@@ -2,7 +2,7 @@
 require "test/unit"
 require "card"
 
-class TestEnum < Test::Unit::TestCase
+class TestCard < Test::Unit::TestCase
   def test_card_sanity
     assert_equal Card::Rank::TEN.to_i, 10
     assert_equal [Card::Suit::CLUBS, Card::Suit::DIAMONDS, Card::Suit::HEARTS,
@@ -29,11 +29,6 @@ class TestEnum < Test::Unit::TestCase
       Card::SEVEN_OF_SPADES, Card::EIGHT_OF_SPADES, Card::NINE_OF_SPADES,
       Card::TEN_OF_SPADES, Card::JACK_OF_SPADES, Card::QUEEN_OF_SPADES,
       Card::KING_OF_SPADES, Card::ACE_OF_SPADES], Card.values
-  end
-  def test_card_deck
-    deck = Card::Deck.new
-    assert_not_equal Card.values, deck.cards
-    assert_equal Card.values, deck.cards.sort
   end
 end
 

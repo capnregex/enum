@@ -1,3 +1,6 @@
+
+require "enum"
+
 class Planet < Enum
   enum_fields :mass, ## in kilograms
               :radius ## in meters
@@ -27,3 +30,4 @@ class Planet < Enum
   end
   
 end
+

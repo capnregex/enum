@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
    s.authors = [ "CapnRegex" ]
    s.email = %q{capnregex@gmail.org}
 
-   files = [ "README", "Changelog", "LICENSE" ]
+   files = [ "README.txt", "Changelog", "LICENSE" ]
    Dir.chdir(File.dirname(__FILE__)) do
      Dir["**/*.rb"].each do |rb| 
        files.push rb

@@ -1,3 +1,6 @@
+
+require 'enum'
+
 class Family < Enum
   enum_fields :description
   enum do
@@ -15,3 +18,4 @@ class Family < Enum
     DEMO 'Wpl1 Non Macro segment workout'
   end
 end
+

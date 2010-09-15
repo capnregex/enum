@@ -1,5 +1,5 @@
+
 require "test/unit"
-require "enum"
 require "family"
 
 class TestEnum < Test::Unit::TestCase
@@ -91,3 +91,4 @@ class TestEnum < Test::Unit::TestCase
   end
 
 end
+

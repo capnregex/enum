@@ -19,32 +19,5 @@ class Card < Enum
     end
   end
 
-  class Deck 
-    def initialize 
-      @cards = Array.new(Card.values)
-      shuffle
-    end
-    def draw
-      if @cards.empty?
-	shuffle
-      end
-      @cards.shift
-    end
-    def cards
-      @cards
-    end
-    def shuffle
-      old = @cards
-      if old.empty?
-	old = Array.new(Card.values)
-      end
-      @cards = []
-      until old.empty?
-	card = old.delete_at(rand(old.length))
-	@cards.insert(rand(@cards.length),card)
-      end
-    end
-  end
-
 end
 
