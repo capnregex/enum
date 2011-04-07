@@ -48,6 +48,14 @@ public
     def find id
       values[id]
     end
+    def value_of val
+      case val
+      when Integer then find val
+      when String then const_get val.upcase.to_sym
+      when Symbol then const_get val.to_s.upcase.to_sym
+      else raise ArgumentError, "Cannot deserialize from #{val}: no valid type mapping for #{val.class}"
+      end
+    end
     def each
       values.each do |value|
 	yield value
