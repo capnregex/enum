@@ -12,6 +12,7 @@ protected
     @id = self.class.next_ordinal
     sym = args.shift
     @sym = sym.to_sym
+    @serialization_sym = @sym.to_s.downcase.to_sym
     @name = args.shift || sym.to_s
     init(*args)
     if block
@@ -28,7 +29,7 @@ public
       nil
     end
   end
-  def to_sym;@sym;end
+  def to_sym;@serialization_sym;end
   def to_s;@name;end
   alias name to_s
   alias title to_s
@@ -58,7 +59,7 @@ public
     end
     def each
       values.each do |value|
-	yield value
+        yield value
       end
     end
     def save
@@ -83,15 +84,15 @@ public
     end
     def enum *args, &block
       unless args.empty?
-	if args.length == 1 and ( arg = args.first ) and arg.kind_of? Array
-	  arg.each do |a|
-	    add_enum a
-	  end
-	else
-	  args.each do |arg|
-	    add_enum arg
-	  end
-	end
+        if args.length == 1 and ( arg = args.first ) and arg.kind_of? Array
+          arg.each do |a|
+            add_enum a
+          end
+        else
+          args.each do |arg|
+            add_enum arg
+          end
+        end
       end
       if block
         Enumeration.new self, &block
@@ -107,7 +108,7 @@ public
       when /\s/ 
         arg.gsub(/\s+/,'_').to_sym
       else 
-	arg.to_sym
+        arg.to_sym
       end
     end
     def add_enum *args, &block
@@ -115,12 +116,12 @@ public
       name = c.to_s
       sym = enum_sym(c)
       if const_defined? sym
-	const_get sym 
+        const_get sym
       else
-	value = new(sym,name,*args,&block)
-	values.push value
-	const_set(sym,value)
-	value
+        value = new(sym,name,*args,&block)
+        values.push value
+        const_set(sym,value)
+        value
       end
     end
   end
