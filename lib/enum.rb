@@ -42,7 +42,7 @@ class Enum
 
   def to_i; @id; end
 
-  def inspect;"#{self.class}::#{to_sym}";end
+  def inspect;"#{self.class}::#{@sym}";end
 
   class << self
     def values
@@ -122,6 +122,9 @@ class Enum
     def add_enum *args, &block
       c = args.shift
       name = c.to_s
+      if name !~ /^[A-Z_][A-Z0-9_]*$/
+        raise ArgumentError, "Enum names must be constant-cased, matching /^[A-Z_][A-Z0-9_]*$/. Name #{name} does not match"
+      end
       sym = enum_sym(c)
       if const_defined? sym
         raise ArgumentError, "Attempt to redefine enumerated value #{sym}, already defined as #{const_get sym}"

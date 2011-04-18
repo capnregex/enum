@@ -25,9 +25,25 @@ class TestEnum < Test::Unit::TestCase
     assert !MethodArgumentEnum::C.nil?
   end
   
+  def test_definition_in_non_constant_case_raises_argument_error
+    assert_raise ArgumentError do
+      self.class.class_eval("
+        class DuplicateDefinitionEnum < Enum
+          enum %w{MixedCaseValue}
+        end")
+    end
+  end
+  
+  def test_inspect_produces_correctly_cased_enum_name
+    assert_equal "TestEnum::SimpleEnum::SIMPLE_VALUE", SimpleEnum::SIMPLE_VALUE.inspect
+  end
   
   class MethodArgumentEnum < Enum 
     enum("A", "B", "C")
   end  
+  
+  class SimpleEnum < Enum
+    enum %w(SIMPLE_VALUE)
+  end
 end
 
