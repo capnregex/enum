@@ -1,6 +1,6 @@
 # Enum
 class Enum
-  VERSION = '1.0.0'
+  VERSION = '1.0.3'
   include Comparable
 
   protected
