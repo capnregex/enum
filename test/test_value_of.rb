@@ -34,13 +34,13 @@ class TestValueOf < Test::Unit::TestCase
       Color.value_of(:NO_SUCH_VALUE)
     end
   end
-  
-end
 
-class Color < Enum
-  enum %w(
-    RED
-    GREEN
-    BLUE
-  )
+  class Color < Enum
+    enum %w(
+      RED
+      GREEN
+      BLUE
+    )
+  end
+
 end

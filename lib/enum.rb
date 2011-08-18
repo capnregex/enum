@@ -79,7 +79,24 @@ class Enum
       o
     end
 
-    
+    # Look-up an enum instance using the given field name with the given value.
+    # @param [Symbol] field_name the field name to lookup on
+    # @param [Object] value the value to lookup with
+    # @return [Enum] the enum instance that corresponds to the given value, or nil if there is no such instance
+    # @raise [NameError] if the field name given does not exist
+    def lookup_by(field_name, value)
+      if !fields.include?(field_name)
+        raise NameError, "Attribute #{field_name} does not exist on this enum.  Valid attributes are: [#{fields.join(', ')}]"
+      end
+      memo_var_name = "@#{field_name}_reverse_lookup_memo"
+      lookup_map = if instance_variable_defined?(memo_var_name)
+                     instance_variable_get(memo_var_name)
+                   else
+                     instance_variable_set(memo_var_name, compute_reverse_lookup_map(field_name))
+                   end
+      lookup_map[value]
+    end
+
     protected
 
     def start_at i
@@ -133,6 +150,13 @@ class Enum
         values.push value
         const_set(sym,value)
         value
+      end
+    end
+
+    def compute_reverse_lookup_map(field_name)
+      values.inject({}) do |memo, enum_value|
+        memo[enum_value.send(field_name)] = enum_value
+        memo
       end
     end
   end
