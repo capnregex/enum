@@ -20,18 +20,18 @@ class TestEnum < Test::Unit::TestCase
   end
 
   def test_family_syms
-    assert_equal Family::MANUAL.to_sym, :MANUAL
-    assert_equal Family::CHIRP.to_sym, :CHIRP
-    assert_equal Family::CANNED.to_sym, :CANNED
-    assert_equal Family::PULSE.to_sym, :PULSE
-    assert_equal Family::LEARN.to_sym, :LEARN
-    assert_equal Family::STEP.to_sym, :STEP
-    assert_equal Family::DISTANCE.to_sym, :DISTANCE
-    assert_equal Family::CALORIE.to_sym, :CALORIE
-    assert_equal Family::HRSS.to_sym, :HRSS
-    assert_equal Family::TRAINER.to_sym, :TRAINER
-    assert_equal Family::TEST.to_sym, :TEST
-    assert_equal Family::DEMO.to_sym, :DEMO
+    assert_equal Family::MANUAL.to_sym, :manual
+    assert_equal Family::CHIRP.to_sym, :chirp
+    assert_equal Family::CANNED.to_sym, :canned
+    assert_equal Family::PULSE.to_sym, :pulse
+    assert_equal Family::LEARN.to_sym, :learn
+    assert_equal Family::STEP.to_sym, :step
+    assert_equal Family::DISTANCE.to_sym, :distance
+    assert_equal Family::CALORIE.to_sym, :calorie
+    assert_equal Family::HRSS.to_sym, :hrss
+    assert_equal Family::TRAINER.to_sym, :trainer
+    assert_equal Family::TEST.to_sym, :test
+    assert_equal Family::DEMO.to_sym, :demo
   end
 
   def test_family_names
